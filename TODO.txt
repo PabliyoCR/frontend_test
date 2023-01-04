@@ -1,0 +1,106 @@
+// TODO:
+Registrar cliente y buscar si tiene historial
+Registrar toda transaccion
+que sirva al poner el telefono en horizontal
+error handling de inicio de sesion
+arreglar scroll de clientes
+corregir campos enum con numeros
+arreglar login y logout
+resolver guardianes
+agregar prefijo a numero de contacto
+validaciones de formularios
+verificar el maximo de entradas por query. Necesaria la paginacion?
+optimizar queries para traer solo la info relevante
+configurar variables de entorno remotas
+recargar la app al arrastrar hacia abajo
+!!! Indicar cuando no hay conexion. Indicar cuando una peticion falla
+alertas al agregar o editar en formularios
+restringir no abonar mas de la deuda
+la informacion de perfil y transacciones deben restringirse al perfil vinculado en el token
+restringir resolver para que clientes totales solo los pueda ver el admin
+error handling al request error
+agregar filtro PRESTADO en cierres (nuevo prestamo)
+crear un alert service para notificar errores
+seleccionar ruta by zona
+verificar maximo de registros que retorna un query
+restringir que el abono no supere el saldo pendiente
+
+-- segunda iteracion
+admin para gestionar empleados. Reasignar usuario
+mover slide a activos al crearse cliente
+alertar al admin de una accion de eliminacion
+registro transacciones
+abreviar los queries importando strings y reutilizando
+refinanciamiento ejecutar batches por si un proceso falla no alterar el otro
+contactos con prefijos 506 y masks
+revizar los subscribers para evitar sobrecargas
+
+--- Como funciona: 
+refinanciamiento
+saldo a favor
+eliminar abonos
+estado de visitado
+puede haber varias tarjetas activas simultaneamente
+enrutamiento
+cada usuario tiene su propia cartera de clientes?
+
+-- Mas preguntas
+en caso de eliminar usuario, como reasignar clientes y tarjetas?
+el numero de tarjeta se crea automaticamente y es incrementable
+que son las metas
+que es lo que se permite editar en el cliente
+Se puede eliminar una tarjeta? Quienes pueden?
+que errores habias detectado en la app antigua
+como deberia de desaparecer una tarjeta ya pagada?
+si alguien abona por muchas cuotas, se deberia avisar qué dias no cobrar?
+las tarjetas pagadas deberian ser invisibles al dia siguiente?
+al refinanciar una tarjeta debe quedar con el mismo numero de tarjeta?
+al refinanciar se suma tanto a la salida como entrada?
+al refinanciar se acumulan los intereses
+que es la caja
+en las metas el total prestado es con o sin intereses (lo mismo se aplica en cierres?)
+
+-------
+botones filtro cierres ---
+verificar campos tarjeta view --
+boton llamar ---
+descontar abonos ---
+link a cliente desde tarjeta ---
+link a tarjeta desde cliente ---
+enrutar ---
+refinanciamiento tarjeta ---
+        la nueva refinanciada pasa a ser pendiente a media noche ---
+gastos: Ver los gastos del dia---
+    Ingresar gastos---
+        concepto---
+            gasolina---
+            salario---
+            recargas---
+            ahorros---
+            otros---
+        cantidad---
+        descripcion.---
+metas---
+    prestado en el mes---
+editable---
+    todo lo del cliente---
+        editar mapa---
+    tarjeta---
+        valor de la cuota---
+        monto del prestamo---
+agregar toasts
+rutas iconos
+
+
+
+////// PENDIENTE
+tarjetas en ruta
+casilla busqueda cierres y en rutas
+datos caja inicio, caja final
+implementar toasts
+desplegar nueva refinanciada y vieja refinanciada
+agregar alertas a forms
+copia de seguridad 
+    a media noche resetear valores
+
+

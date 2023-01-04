@@ -1,0 +1,104 @@
+<h3>Sign Up</h3>
+<form [formGroup]="signUpForm">
+  <div>
+    <label>
+      Email:
+      <input
+        type="text"
+        formControlName="email"
+        placeholder="Email"
+        autocomplete="email"
+      />
+    </label>
+    <div
+      *ngIf="
+        signUpForm.controls.email.invalid && signUpForm.controls.email.touched
+      "
+    >
+      <div *ngIf="signUpForm.controls.email.errors?.['required']">
+        Email is required.
+      </div>
+      <div *ngIf="signUpForm.controls.email.errors?.['email']">
+        Email format not valid.
+      </div>
+    </div>
+  </div>
+  <div>
+    <label>
+      Password:
+      <input
+        type="password"
+        formControlName="password"
+        placeholder="Password"
+      />
+    </label>
+    <div
+      *ngIf="
+        signUpForm.controls.password.invalid &&
+        signUpForm.controls.password.touched
+      "
+    >
+      <div *ngIf="signUpForm.controls.password.errors?.['required']">
+        Password is required.
+      </div>
+      <div *ngIf="signUpForm.controls.password.errors?.['minlength']">
+        The password must have:
+        <ul>
+          <li>At least 8 characters</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div>
+    <label>
+      Confirm Password:
+      <input
+        type="password"
+        formControlName="passwordConfirmation"
+        placeholder="Confirm Password"
+      />
+    </label>
+    <div *ngIf="signUpForm.errors?.['match_error']">Passwords do not match</div>
+  </div>
+  <div>
+    <label>
+      First Name:
+      <input
+        formControlName="firstName"
+        placeholder="First Name"
+        autocomplete="given-name"
+      />
+    </label>
+    <div
+      *ngIf="
+        signUpForm.controls.firstName.invalid &&
+        signUpForm.controls.firstName.touched
+      "
+    >
+      <div *ngIf="signUpForm.controls.firstName.errors?.['required']">
+        First Name is required.
+      </div>
+    </div>
+  </div>
+  <div>
+    <label>
+      Last Name:
+      <input
+        formControlName="lastName"
+        placeholder="Last Name"
+        autocomplete="family-name"
+      />
+    </label>
+    <div
+      *ngIf="
+        signUpForm.controls.lastName.invalid &&
+        signUpForm.controls.lastName.touched
+      "
+    >
+      <div *ngIf="signUpForm.controls.lastName.errors?.['required']">
+        Last Name is required.
+      </div>
+    </div>
+  </div>
+</form>
+<button (click)="SignUp()">Sign Up</button>

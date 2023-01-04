@@ -1,0 +1,204 @@
+<ion-content class="ion-padding">
+  <div *ngIf="usuarioActual">
+    <h3>
+      Cobrador: <b>{{ usuarioActual.nombre }}</b>
+    </h3>
+    <h5>{{ fecha }}</h5>
+    <div>
+      Total dinero recaudado:
+      <b>{{ usuarioActual.dineroRecaudadoHoy | colones }}</b>
+    </div>
+    <div>
+      Total dinero prestado:
+      <b>{{ usuarioActual.dineroPrestadoHoy | colones }}</b>
+    </div>
+    <div>
+      Caja de inicio:
+      <b></b>
+    </div>
+    <div>
+      Caja final:
+      <b></b>
+    </div>
+    <div>
+      Clientes que pagaron:
+      <b>{{ usuarioActual.clientesQuePagaronHoy }}</b>
+    </div>
+    <div>
+      Clientes que no pagaron:
+      <b>{{ usuarioActual.clientesQueNoPagaronHoy }}</b>
+    </div>
+    <h5>Notificaciones</h5>
+    <div class="mb-4">
+      Gastos:
+      <ul>
+        <li *ngFor="let gasto of usuarioActual.gastos">
+          Concepto :
+          <b class="me-3">
+            {{ gasto.concepto | getEnumValue : ConceptoGasto }}
+          </b>
+          Monto:
+          <b> {{ gasto.monto | colones }} </b>
+        </li>
+        <div class="text-end me-5">
+          Gastos Totales:
+          <b> {{ usuarioActual.totalGastos | colones }}</b>
+        </div>
+      </ul>
+    </div>
+  </div>
+
+  <h4 class="my-0">Clientes en ruta</h4>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-list class="py-0">
+          <ion-item>
+            <ion-label class="filter">No Pagaron Hoy</ion-label>
+            <ion-toggle
+              #noPagaron
+              color="danger"
+              slot="end"
+              [checked]="true"
+              (ionChange)="filtrar()"
+            ></ion-toggle>
+          </ion-item>
+          <ion-item>
+            <ion-label class="filter">Si Pagaron Hoy</ion-label>
+            <ion-toggle
+              #siPagaron
+              color="success"
+              slot="end"
+              [checked]="true"
+              (ionChange)="filtrar()"
+            ></ion-toggle>
+          </ion-item>
+          <ion-item>
+            <ion-label class="filter">Refinanciadas</ion-label>
+            <ion-toggle
+              #refinanciadas
+              color="warning"
+              slot="end"
+              [checked]="true"
+              (ionChange)="filtrar()"
+            ></ion-toggle>
+          </ion-item>
+          <ion-item>
+            <ion-label class="filter">Pagadas</ion-label>
+            <ion-toggle
+              #pagadas
+              color="secondary"
+              slot="end"
+              [checked]="true"
+              (ionChange)="filtrar()"
+            ></ion-toggle>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div *ngIf="tarjetas">
+    <ion-card
+      *ngFor="let tarjeta of tarjetas"
+      (click)="openTarjeta(tarjeta.id)"
+      class="mb-3"
+    >
+      <ion-card-header>
+        <ion-card-title
+          ><b>{{ tarjeta.cliente.nombre }}</b>
+          <span class="float-end">
+            {{ tarjeta.dia_de_pago | getEnumValue : DiaPago }}</span
+          >
+        </ion-card-title>
+        <ion-card-subtitle>
+          <b>{{ tarjeta.cliente.zona | getEnumValue : Zona }}</b
+          ><br />
+          Contacto :
+          <b
+            *ngFor="let numero of tarjeta.cliente.contacto"
+            class="ms-3 contact"
+            (click)="call($event, numero)"
+            >{{ numero }}</b
+          >
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div>
+          Tarjeta Número:
+          <b
+            >{{ tarjeta.numero }}
+            <span
+              class="float-end"
+              [class.siAbono]="tarjeta.abonoHoy"
+              [class.noAbono]="!tarjeta.abonoHoy"
+              >{{ tarjeta.abonoHoy ? "SI" : "NO" }} ABONÓ HOY</span
+            ></b
+          >
+        </div>
+        <div>
+          Estado:
+          <ion-text color="primary">
+            <b
+              [class.refinanciada]="
+                checkTarjetaRefinanciada(tarjeta.statusTarjeta)
+              "
+              [class.pagada]="checkTarjetaPagada(tarjeta.statusTarjeta)"
+              >{{ tarjeta.statusTarjeta | getEnumValue : StatusTarjeta }}</b
+            >
+          </ion-text>
+        </div>
+        <div>
+          Fecha de Préstamo:
+          <b>{{ tarjeta.fecha_de_prestamo | fecha }}</b>
+        </div>
+        <div>
+          Préstamo:
+          <b>{{ tarjeta.prestamo_sin_interes | colones }}</b>
+        </div>
+        <div>
+          Deuda Total:
+          <b>{{ tarjeta.deuda | colones }}</b>
+        </div>
+        <div>
+          Porcentaje de Ganancia:
+          <b>{{ Interes[tarjeta.interes] }}%</b>
+        </div>
+        <div>
+          Cuota Diaria:
+          <ion-text color="danger">
+            <b>{{ tarjeta.valorCuota | colones }}</b>
+          </ion-text>
+        </div>
+        <div>
+          Deuda Pendiente:
+          <b>{{ tarjeta.saldoPendiente | colones }}</b>
+        </div>
+        <div>
+          Cuotas Pendientes:
+          <ion-text color="danger">
+            <b>{{ tarjeta.cuotasPendientes }}</b>
+          </ion-text>
+        </div>
+        <div>
+          Cuotas Pagadas:
+          <ion-text color="success">
+            <b>{{ tarjeta.cuotasPagadas }}</b>
+          </ion-text>
+        </div>
+        <div>
+          Total Abonos:
+          <ion-text color="primary">
+            <b>{{ tarjeta.totalAbonado | colones }}</b>
+          </ion-text>
+        </div>
+        <div>
+          Saldo a Favor:
+          <ion-text color="warning">
+            <b>{{ tarjeta.saldoAFavor | colones }}</b>
+          </ion-text>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

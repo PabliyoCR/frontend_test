@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon size="large" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Tarjeta</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <form (ngSubmit)="registrarTarjeta()" [formGroup]="tarjetaForm">
+    <ion-item>
+      <ion-label position="floating">Monto de Préstamo:</ion-label>
+      <ion-input
+        type="number"
+        formControlName="prestamo_sin_interes"
+        placeholder=""
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">Interés:</ion-label>
+      <ion-select
+        formControlName="interes"
+        interface="popover"
+        placeholder="Interés:"
+        class="mt-3"
+      >
+        <ion-select-option
+          *ngFor="let interes of intereses"
+          [value]="interes | getEnumValue : Interes"
+          >{{ interes }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">Día de Pago:</ion-label>
+      <ion-select
+        formControlName="dia_de_pago"
+        interface="popover"
+        placeholder="Día de Pago:"
+        class="mt-3"
+      >
+        <ion-select-option *ngFor="let dia of dia_de_pago" [value]="dia">{{
+          dia | getEnumValue : DiaPago
+        }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">Núm. Cuotas:</ion-label>
+      <ion-select
+        formControlName="numero_cuotas"
+        interface="popover"
+        placeholder="Número de Cuotas:"
+        class="mt-3"
+      >
+        <ion-select-option
+          *ngFor="let numero of numero_cuotas"
+          [value]="numero | getEnumValue : NumeroCuotas"
+          >{{ numero }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="editando">
+      <ion-label position="floating">Valor de Cuota:</ion-label>
+      <ion-input
+        type="number"
+        [formControl]="valorCuotaControl"
+        placeholder=""
+      ></ion-input>
+    </ion-item>
+    <ion-button
+      type="submit"
+      class="mt-5"
+      expand="block"
+      [disabled]="!tarjetaForm.valid || (editando && !valorCuotaControl.valid)"
+      >{{ !editando ? "Crear Tarjeta" : "Editar Tarjeta" }}</ion-button
+    >
+  </form>
+</ion-content>

@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon size="large" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Cliente</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <form (ngSubmit)="registrarCliente()" [formGroup]="clienteForm">
+    <ion-item>
+      <ion-label position="floating">Nombre:</ion-label>
+      <ion-input formControlName="nombre"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">C.C:</ion-label>
+      <ion-input formControlName="c_c"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-select
+        formControlName="zona"
+        interface="popover"
+        placeholder="Zona:"
+        class="mt-3"
+      >
+        <ion-select-option *ngFor="let zona of zonas" [value]="zona">{{
+          zona | getEnumValue : Zona
+        }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <table class="table mt-3">
+      <thead>
+        <tr>
+          <th scope="col">Teléfonos de Contacto</th>
+          <th scope="col">Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let numero of contacto; let idx = index">
+          <th scope="row">{{ numero }}</th>
+          <td>
+            <ion-button (click)="removerNumero(idx)" color="tertiary">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ion-item fill="outline">
+      <ion-label color="medium">Digite Contacto:</ion-label>
+      <ion-input [formControl]="numeroContacto" type="number"></ion-input>
+      <ion-button (click)="agregarNumero()" [disabled]="!numeroContacto.valid"
+        >Agregar</ion-button
+      >
+    </ion-item>
+
+    <ion-button
+      type="submit"
+      class="mt-5"
+      expand="block"
+      [disabled]="!clienteForm.valid || !contacto.length"
+      >{{ !editando ? "Crear Cliente" : "Editar Cliente" }}</ion-button
+    >
+
+    Direcicion:
+    <google-map
+      width="100%"
+      [center]="center"
+      [options]="mapOptions"
+      (mapClick)="moveMapMark($event)"
+    >
+      <map-marker [position]="center"></map-marker>
+    </google-map>
+  </form>
+</ion-content>

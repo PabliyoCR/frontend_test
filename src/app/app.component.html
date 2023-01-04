@@ -1,0 +1,69 @@
+<ion-app>
+  <ion-menu contentId="main-content" type="overlay" side="end">
+    <ion-content>
+      <ion-menu-toggle auto-hide="false">
+        <ion-list id="inbox-list">
+          <ion-item lines="none" detail="false">
+            Colaborador: <b>{{ username }}</b>
+          </ion-item>
+        </ion-list>
+        <ion-list id="inbox-list">
+          <ion-item
+            *ngFor="let page of appPages; let i = index"
+            [routerLink]="[page.url]"
+            lines="none"
+            detail="false"
+            routerLinkActive="selected"
+          >
+            <ion-icon
+              slot="start"
+              [ios]="page.icon + '-outline'"
+              [md]="page.icon + '-sharp'"
+            ></ion-icon>
+            <ion-label>{{ page.title }}</ion-label>
+          </ion-item>
+        </ion-list>
+        <ion-list id="inbox-list">
+          <ion-item
+            lines="none"
+            detail="false"
+            routerLinkActive="selected"
+            (click)="logOut()"
+          >
+            <ion-icon
+              slot="start"
+              ios="log-out-outline"
+              md="log-out-sharp"
+            ></ion-icon>
+            <ion-label>Cerrar Sesión</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-menu-toggle>
+    </ion-content>
+  </ion-menu>
+
+  <div class="ion-page" id="main-content">
+    <ion-header [translucent]="true">
+      <ion-toolbar>
+        <ion-buttons
+          slot="start"
+          *ngIf="router.url !== '/' && router.url !== '/logIn'"
+        >
+          <ion-button (click)="goBack()">
+            <ion-icon size="large" name="chevron-back-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end" *ngIf="router.url !== '/logIn'">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title *ngIf="appPages[currentPageIdx]?.title">{{
+          appPages[currentPageIdx].title
+        }}</ion-title>
+        <ion-title *ngIf="!appPages[currentPageIdx]?.title">PAY</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-router-outlet></ion-router-outlet>
+    </ion-content>
+  </div>
+</ion-app>

@@ -1,0 +1,10 @@
+mat-tab-group {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
+}
+
+::ng-deep .mat-mdc-tab-labels > .mdc-tab:first-child {
+  display: none;
+}

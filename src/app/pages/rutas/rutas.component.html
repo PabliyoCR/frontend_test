@@ -1,0 +1,81 @@
+<ion-content class="ion-padding pb-5">
+  <!-- Menu inicial-->
+  <ng-container *ngIf="!rutaSeleccionada">
+    <ion-item
+      *ngFor="let ruta of rutas; let i = index"
+      (click)="seleccionarRuta(i)"
+    >
+      <ion-label>{{ ruta | getEnumValue : Zona }}</ion-label>
+      <ion-icon name="location" slot="end"></ion-icon>
+    </ion-item>
+  </ng-container>
+  <!--Listado de rutas-->
+  <ng-container *ngIf="rutaSeleccionada">
+    <div class="d-flex justify-content-between p-4 pb-0">
+      <h3>
+        {{ rutaSeleccionada | getEnumValue : Zona }}
+      </h3>
+      <ion-button (click)="openEnrutar()" class="mb-2 float-end"
+        >Enrutar</ion-button
+      >
+    </div>
+    <ion-list lines="none">
+      <ion-item *ngFor="let tarjeta of tarjetas">
+        <ion-card (click)="openTarjeta(tarjeta.id)">
+          <ion-card-header>
+            <ion-card-title
+              ><b>{{ tarjeta.cliente.nombre }}</b></ion-card-title
+            >
+            <ion-card-subtitle>
+              <div class="d-flex justify-content-between">
+                <div>
+                  Dia de pago:
+                  <b> {{ tarjeta.dia_de_pago | getEnumValue : DiaPago }} </b>
+                </div>
+                <div>
+                  <ion-text color="danger">
+                    <b>{{
+                      tarjeta.statusTarjeta | getEnumValue : StatusTarjeta
+                    }}</b></ion-text
+                  >
+                </div>
+              </div>
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <div>
+              Fecha de Préstamo:
+              <b>{{ tarjeta.fecha_de_prestamo | fecha }}</b>
+            </div>
+            <div>
+              Deuda: <b>{{ tarjeta.deuda | colones }}</b>
+            </div>
+            <div>
+              Cantidad Abonada: <b>{{ tarjeta.totalAbonado | colones }}</b>
+            </div>
+            <div>
+              Contacto :
+              <b
+                *ngFor="let numero of tarjeta.cliente.contacto"
+                class="ms-3 contact"
+                (click)="call($event, numero)"
+                >{{ numero }}</b
+              >
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+  <!--Tab rutas-->
+</ion-content>
+<mat-tab-group
+  #tabs
+  headerPosition="below"
+  [selectedIndex]="tabIdx"
+  (selectedTabChange)="tabChange($event)"
+>
+  <mat-tab></mat-tab>
+  <mat-tab *ngFor="let ruta of rutas" label="{{ ruta | getEnumValue : Zona }}">
+  </mat-tab>
+</mat-tab-group>

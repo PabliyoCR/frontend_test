@@ -1,0 +1,10 @@
+<ion-content class="ion-padding">
+  <h2>Metas del mes de {{ mes }}</h2>
+  <div *ngIf="usuarioActual">
+    <ul>
+      <li>
+        Total Prestado: <b>{{ usuarioActual.dineroPrestadoMes | colones }}</b>
+      </li>
+    </ul>
+  </div>
+</ion-content>

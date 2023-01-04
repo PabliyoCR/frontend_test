@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon size="large" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Tarjeta</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <form
+    (ngSubmit)="refinanciarTarjeta()"
+    [formGroup]="refinanciamientoForm"
+    class="mt-3"
+    *ngIf="tarjeta"
+  >
+    <ion-text color="tertiary">
+      El valor del nuevo préstamo debe ser mayor al saldo pendiente en la
+      tarjeta <b>#{{ tarjeta.numero }}</b>
+    </ion-text>
+    <ion-item class="pb-3">
+      <ion-label position="floating">Monto del Nuevo Préstamo:</ion-label>
+      <ion-input
+        type="number"
+        formControlName="prestamo_sin_interes"
+        placeholder=""
+      ></ion-input>
+    </ion-item>
+    <div
+      *ngIf="
+        refinanciamientoForm.controls.prestamo_sin_interes.value! -
+          tarjeta.saldoPendiente >
+        0
+      "
+    >
+      <p>
+        De estos
+        <b>{{
+          refinanciamientoForm.controls.prestamo_sin_interes.value! | colones
+        }}</b>
+        se reducen <b>{{ tarjeta.saldoPendiente | colones }}</b> para el pago
+        del saldo pendiente en la tarjeta <b>#{{ tarjeta.numero }}</b>
+      </p>
+      <p>
+        Se debe entregar al cliente
+        <b>{{
+          refinanciamientoForm.controls.prestamo_sin_interes.value! -
+            tarjeta.saldoPendiente | colones
+        }}</b>
+      </p>
+    </div>
+    <ion-item>
+      <ion-label position="fixed">Interés:</ion-label>
+      <ion-select
+        formControlName="interes"
+        interface="popover"
+        placeholder="Interés:"
+        class="mt-3"
+      >
+        <ion-select-option
+          *ngFor="let interes of intereses"
+          [value]="interes | getEnumValue : Interes"
+          >{{ interes }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">Día de Pago:</ion-label>
+      <ion-select
+        formControlName="dia_de_pago"
+        interface="popover"
+        placeholder="Día de Pago:"
+        class="mt-3"
+      >
+        <ion-select-option *ngFor="let dia of dia_de_pago" [value]="dia">{{
+          dia | getEnumValue : DiaPago
+        }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">Núm. Cuotas:</ion-label>
+      <ion-select
+        formControlName="numero_cuotas"
+        interface="popover"
+        placeholder="Número de Cuotas:"
+        class="mt-3"
+      >
+        <ion-select-option
+          *ngFor="let numero of numero_cuotas"
+          [value]="numero | getEnumValue : NumeroCuotas"
+          >{{ numero }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+    <ion-button
+      type="submit"
+      class="mt-5"
+      expand="block"
+      color="warning"
+      [disabled]="
+        !refinanciamientoForm.valid ||
+        refinanciamientoForm.controls.prestamo_sin_interes.value! -
+          tarjeta.saldoPendiente <=
+          0
+      "
+      >Refinanciar Tarjeta</ion-button
+    >
+  </form>
+</ion-content>

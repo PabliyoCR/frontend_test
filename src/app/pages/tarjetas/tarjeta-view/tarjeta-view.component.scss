@@ -1,0 +1,24 @@
+.cuota {
+  border: solid 1px gray;
+  background-color: white;
+
+  &.pagada {
+    color: white;
+    background-color: var(--ion-color-success);
+  }
+  &.parcial {
+    background-color: var(--ion-color-warning);
+  }
+  &.atrasada {
+    color: white;
+    background-color: var(--ion-color-danger);
+  }
+}
+
+.abonada {
+  color: var(--ion-color-success);
+}
+
+.desabonada {
+  color: var(--ion-color-danger);
+}

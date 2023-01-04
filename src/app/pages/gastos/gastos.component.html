@@ -1,0 +1,68 @@
+<ion-content class="ion-padding">
+  <h4>Añadir Gasto</h4>
+  <form (ngSubmit)="crearGasto()" [formGroup]="gastoForm">
+    <ion-item>
+      <ion-select
+        formControlName="concepto"
+        interface="popover"
+        placeholder="Concepto:"
+        class="mt-3"
+      >
+        <ion-select-option
+          *ngFor="let concepto of conceptos"
+          [value]="concepto"
+          >{{ concepto | getEnumValue : ConceptoGasto }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Monto:</ion-label>
+      <ion-input type="number" formControlName="monto"></ion-input>
+    </ion-item>
+    <ion-textarea
+      formControlName="descripcion"
+      placeholder="Descripcion (Opcional)"
+      [clearOnEdit]="true"
+    ></ion-textarea>
+
+    <ion-button
+      type="submit"
+      class="mt-2"
+      expand="block"
+      [disabled]="!gastoForm.valid"
+      >Añadir Gasto</ion-button
+    >
+  </form>
+
+  <h3 class="mt-5">Gastos del día:</h3>
+  <div *ngIf="usuarioActual">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Monto</th>
+          <th scope="col">Concepto</th>
+          <th scope="col">Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let gasto of usuarioActual.gastos; let idx = index">
+          <th scope="row">{{ gasto.monto | colones }}</th>
+          <td>
+            <div>
+              {{ gasto.concepto | getEnumValue : ConceptoGasto }}
+            </div>
+            <div *ngIf="gasto.descripcion">
+              Descripción: <b> {{ gasto.descripcion }} </b>
+            </div>
+          </td>
+          <td>
+            <ion-button (click)="eliminarGasto(idx)" color="tertiary">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ion-content>
