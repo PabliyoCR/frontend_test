@@ -61,17 +61,17 @@ const basic = setContext((operation, context) => ({
   },
 }));
 
-const ws = new WebSocketLink({
-  uri: 'ws://137.184.228.88:4001/graphql',
-  options: {
-    reconnect: true,
-    connectionParams: {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    },
-  },
-});
+//const ws = new WebSocketLink({
+//  uri: 'ws://137.184.228.88:4001/graphql',
+//  options: {
+//    reconnect: true,
+//    connectionParams: {
+//      headers: {
+//        Authorization: `Bearer ${localStorage.getItem('token')}`,
+//      },
+//    },
+//  },
+//});
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
@@ -146,7 +146,7 @@ export function jwtOptionFactor(authService: AuthService) {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
+      registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
   providers: [

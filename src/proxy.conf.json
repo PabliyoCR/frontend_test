@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://localhost:4001/graphql",
+    "target": "http://137.184.228.88:4001/graphql",
     "secure": false,
     "pathRewrite": {
       "^/api": ""
